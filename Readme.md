@@ -1,7 +1,7 @@
 # tracing-durations-export
 
-[![crates.io](https://img.shields.io/crates/v/tracing-durations-export.svg?logo=rust)][https://crates.io/crates/tracing-durations-export]
-[![Documentation][https://docs.rs/tracing-durations-export/badge.svg]][https://docs.rs/tracing-durations-export]
+[![crates.io](https://img.shields.io/crates/v/tracing-durations-export.svg?logo=rust)](https://crates.io/crates/tracing-durations-export)
+[![Documentation](https://docs.rs/tracing-durations-export/badge.svg)](https://docs.rs/tracing-durations-export)
 
 A tracing layer to figure out which tasks are running in parallel and which are blocked on cpu, mainly for cli applications.
 
