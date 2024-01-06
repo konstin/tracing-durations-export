@@ -1,5 +1,8 @@
 # tracing-durations-export
 
+[![crates.io](https://img.shields.io/crates/v/tracing-durations-export.svg?logo=rust)][https://crates.io/crates/tracing-durations-export]
+[![Documentation][https://docs.rs/tracing-durations-export/badge.svg]][https://docs.rs/tracing-durations-export]
+
 A tracing layer to figure out which tasks are running in parallel and which are blocked on cpu, mainly for cli applications.
 
 Each span from beginning to end is a blue stripe. An async span can either be active or yield and wait ([details in the tracing docs](https://docs.rs/tracing/latest/tracing/struct.Span.html#in-asynchronous-code)), only in the sections in which a span is active, we plot an orange section above it. Sync spans are always active, so their blue and orange regions are identical. The darker the color the more spans of the same name are active at the same time.

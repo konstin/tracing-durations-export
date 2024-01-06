@@ -5,6 +5,8 @@ name = "tracing-durations-export"
 version = "0.1.0"
 edition = "2021"
 description = "Record and visualize parallelism of tracing spans"
+license = "MIT OR Apache-2.0"
+readme = "Readme.md"
 
 [[bin]]
 name = "plot"
