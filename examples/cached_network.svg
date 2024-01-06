@@ -1,0 +1,1051 @@
+<svg height="190" viewBox="0 0 1110 190" width="1110" xmlns="http://www.w3.org/2000/svg">
+<text dominant-baseline="middle" text-anchor="start" x="250" y="15">
+0s
+</text>
+<text dominant-baseline="middle" text-anchor="end" x="1100" y="15">
+0.157s
+</text>
+<text dominant-baseline="middle" x="5" y="105">
+cached_network_request
+</text>
+<text dominant-baseline="middle" x="5" y="135">
+read_cache
+</text>
+<text dominant-baseline="middle" x="5" y="165">
+parse_cache
+</text>
+<text dominant-baseline="middle" x="5" y="45">
+make_network_request
+</text>
+<text dominant-baseline="middle" x="5" y="75">
+parse_network
+</text>
+<rect fill="#FF780088" height="10" width="0.26662073" x="250.00151" y="30">
+<title>
+make_network_request 0.000s
+id: 0
+api: https://example.org/uncached
+</title>
+</rect>
+<rect fill="#FF780088" height="10" width="0.096889906" x="283.55286" y="30">
+<title>
+make_network_request 0.000s
+api: https://example.org/uncached
+id: 0
+</title>
+</rect>
+<rect fill="#FF780088" height="10" width="0.01576521" x="283.78146" y="30">
+<title>
+make_network_request 0.000s
+id: 0
+api: https://example.org/uncached
+</title>
+</rect>
+<rect fill="#FF780088" height="10" width="27.571959" x="284.41156" y="60">
+<title>
+parse_network 0.005s
+
+</title>
+</rect>
+<rect fill="#FF780088" height="10" width="0.10715248" x="312.80966" y="30">
+<title>
+make_network_request 0.000s
+id: 1
+api: https://example.org/uncached
+</title>
+</rect>
+<rect fill="#FF780088" height="10" width="0.18173905" x="357.0589" y="30">
+<title>
+make_network_request 0.000s
+id: 1
+api: https://example.org/uncached
+</title>
+</rect>
+<rect fill="#FF780088" height="10" width="0.03523319" x="357.46802" y="30">
+<title>
+make_network_request 0.000s
+api: https://example.org/uncached
+id: 1
+</title>
+</rect>
+<rect fill="#FF780088" height="10" width="27.456667" x="357.83286" y="60">
+<title>
+parse_network 0.005s
+
+</title>
+</rect>
+<rect fill="#FF780088" height="10" width="0.22773899" x="386.26672" y="30">
+<title>
+make_network_request 0.000s
+api: https://example.org/uncached
+id: 2
+</title>
+</rect>
+<rect fill="#FF780088" height="10" width="0.2659485" x="436.1031" y="30">
+<title>
+make_network_request 0.000s
+api: https://example.org/uncached
+id: 2
+</title>
+</rect>
+<rect fill="#FF780088" height="10" width="0.027589118" x="436.73444" y="30">
+<title>
+make_network_request 0.000s
+id: 2
+api: https://example.org/uncached
+</title>
+</rect>
+<rect fill="#FF780088" height="10" width="22.093584" x="437.20697" y="60">
+<title>
+parse_network 0.004s
+
+</title>
+</rect>
+<rect fill="#FF780088" height="10" width="0.2663009" x="460.1186" y="30">
+<title>
+make_network_request 0.000s
+id: 3
+api: https://example.org/uncached
+</title>
+</rect>
+<rect fill="#FF780088" height="10" width="0.26646894" x="515.4005" y="30">
+<title>
+make_network_request 0.000s
+id: 3
+api: https://example.org/uncached
+</title>
+</rect>
+<rect fill="#FF780088" height="10" width="0.027334316" x="515.99506" y="30">
+<title>
+make_network_request 0.000s
+id: 3
+api: https://example.org/uncached
+</title>
+</rect>
+<rect fill="#FF780088" height="10" width="38.30685" x="516.4562" y="60">
+<title>
+parse_network 0.007s
+
+</title>
+</rect>
+<rect fill="#FF780088" height="10" width="0.24340118" x="589.3976" y="30">
+<title>
+make_network_request 0.000s
+id: 0
+api: https://example.org/uncached
+</title>
+</rect>
+<rect fill="#FF780088" height="10" width="0.06067004" x="590.1294" y="30">
+<title>
+make_network_request 0.000s
+id: 1
+api: https://example.org/uncached
+</title>
+</rect>
+<rect fill="#FF780088" height="10" width="0.056094445" x="590.33826" y="30">
+<title>
+make_network_request 0.000s
+id: 2
+api: https://example.org/uncached
+</title>
+</rect>
+<rect fill="#FF780088" height="10" width="0.043435648" x="590.52954" y="30">
+<title>
+make_network_request 0.000s
+id: 3
+api: https://example.org/uncached
+</title>
+</rect>
+<rect fill="#FF780088" height="10" width="0.21313937" x="623.8714" y="30">
+<title>
+make_network_request 0.000s
+api: https://example.org/uncached
+id: 2
+</title>
+</rect>
+<rect fill="#FF780088" height="10" width="0.026315108" x="624.4064" y="30">
+<title>
+make_network_request 0.000s
+api: https://example.org/uncached
+id: 2
+</title>
+</rect>
+<rect fill="#FF780088" height="10" width="0.057991907" x="624.75085" y="30">
+<title>
+make_network_request 0.000s
+api: https://example.org/uncached
+id: 3
+</title>
+</rect>
+<rect fill="#FF780088" height="10" width="0.025360955" x="625.06104" y="30">
+<title>
+make_network_request 0.000s
+api: https://example.org/uncached
+id: 3
+</title>
+</rect>
+<rect fill="#FF780088" height="10" width="0.27772903" x="629.7034" y="30">
+<title>
+make_network_request 0.000s
+id: 0
+api: https://example.org/uncached
+</title>
+</rect>
+<rect fill="#FF780088" height="10" width="0.028337264" x="630.30566" y="30">
+<title>
+make_network_request 0.000s
+api: https://example.org/uncached
+id: 0
+</title>
+</rect>
+<rect fill="#FF780088" height="10" width="0.062746406" x="635.0112" y="30">
+<title>
+make_network_request 0.000s
+id: 1
+api: https://example.org/uncached
+</title>
+</rect>
+<rect fill="#FF780088" height="10" width="0.023159897" x="635.1964" y="30">
+<title>
+make_network_request 0.000s
+id: 1
+api: https://example.org/uncached
+</title>
+</rect>
+<rect fill="#FF780088" height="10" width="22.06474" x="624.8134" y="60">
+<title>
+parse_network 0.004s
+
+</title>
+</rect>
+<rect fill="#FF780088" height="10" width="22.480545" x="632.2992" y="60">
+<title>
+parse_network 0.004s
+
+</title>
+</rect>
+<rect fill="#FF780088" height="10" width="38.772865" x="626.9739" y="60">
+<title>
+parse_network 0.007s
+
+</title>
+</rect>
+<rect fill="#FF780088" height="10" width="38.59608" x="636.73944" y="60">
+<title>
+parse_network 0.007s
+
+</title>
+</rect>
+<rect fill="#FF780088" height="10" width="0.2526283" x="710.07886" y="120">
+<title>
+read_cache 0.000s
+id: 0
+</title>
+</rect>
+<rect fill="#FF780088" height="10" width="0.746408" x="709.92126" y="90">
+<title>
+cached_network_request 0.000s
+api: https://example.net/cached
+id: 0
+</title>
+</rect>
+<rect fill="#FF780088" height="10" width="0.23743233" x="727.4431" y="120">
+<title>
+read_cache 0.000s
+id: 0
+</title>
+</rect>
+<rect fill="#FF780088" height="10" width="0.03420856" x="728.0054" y="120">
+<title>
+read_cache 0.000s
+id: 0
+</title>
+</rect>
+<rect fill="#FF780088" height="10" width="1.0201902" x="727.40674" y="90">
+<title>
+cached_network_request 0.000s
+api: https://example.net/cached
+id: 0
+</title>
+</rect>
+<rect fill="#FF780088" height="10" width="16.627289" x="728.5448" y="150">
+<title>
+parse_cache 0.003s
+
+</title>
+</rect>
+<rect fill="#FF780088" height="10" width="0.19660974" x="745.5641" y="90">
+<title>
+cached_network_request 0.000s
+id: 0
+api: https://example.net/cached
+</title>
+</rect>
+<rect fill="#FF780088" height="10" width="0.02652654" x="746.1239" y="90">
+<title>
+cached_network_request 0.000s
+id: 0
+api: https://example.net/cached
+</title>
+</rect>
+<rect fill="#FF780088" height="10" width="0.2312195" x="746.6067" y="120">
+<title>
+read_cache 0.000s
+id: 1
+</title>
+</rect>
+<rect fill="#FF780088" height="10" width="0.41490477" x="746.5383" y="90">
+<title>
+cached_network_request 0.000s
+api: https://example.net/cached
+id: 1
+</title>
+</rect>
+<rect fill="#FF780088" height="10" width="0.2175957" x="764.05695" y="120">
+<title>
+read_cache 0.000s
+id: 1
+</title>
+</rect>
+<rect fill="#FF780088" height="10" width="0.03351463" x="764.5885" y="120">
+<title>
+read_cache 0.000s
+id: 1
+</title>
+</rect>
+<rect fill="#FF780088" height="10" width="0.18187459" x="764.9942" y="30">
+<title>
+make_network_request 0.000s
+api: https://example.net/cached
+id: 1
+</title>
+</rect>
+<rect fill="#FF780088" height="10" width="1.2875428" x="764.0203" y="90">
+<title>
+cached_network_request 0.000s
+api: https://example.net/cached
+id: 1
+</title>
+</rect>
+<rect fill="#FF780088" height="10" width="0.22219297" x="814.8993" y="30">
+<title>
+make_network_request 0.000s
+id: 1
+api: https://example.net/cached
+</title>
+</rect>
+<rect fill="#FF780088" height="10" width="0.035639785" x="815.5369" y="30">
+<title>
+make_network_request 0.000s
+id: 1
+api: https://example.net/cached
+</title>
+</rect>
+<rect fill="#FF780088" height="10" width="1.0407587" x="814.8614" y="90">
+<title>
+cached_network_request 0.000s
+api: https://example.net/cached
+id: 1
+</title>
+</rect>
+<rect fill="#FF780088" height="10" width="32.909992" x="816.025" y="60">
+<title>
+parse_network 0.006s
+
+</title>
+</rect>
+<rect fill="#FF780088" height="10" width="0.20564169" x="849.75916" y="90">
+<title>
+cached_network_request 0.000s
+api: https://example.net/cached
+id: 1
+</title>
+</rect>
+<rect fill="#FF780088" height="10" width="0.028190887" x="850.332" y="90">
+<title>
+cached_network_request 0.000s
+id: 1
+api: https://example.net/cached
+</title>
+</rect>
+<rect fill="#FF780088" height="10" width="0.24275063" x="850.86646" y="120">
+<title>
+read_cache 0.000s
+id: 2
+</title>
+</rect>
+<rect fill="#FF780088" height="10" width="0.43406916" x="850.7967" y="90">
+<title>
+cached_network_request 0.000s
+id: 2
+api: https://example.net/cached
+</title>
+</rect>
+<rect fill="#FF780088" height="10" width="0.2306882" x="868.252" y="120">
+<title>
+read_cache 0.000s
+id: 2
+</title>
+</rect>
+<rect fill="#FF780088" height="10" width="0.03349836" x="868.8068" y="120">
+<title>
+read_cache 0.000s
+id: 2
+</title>
+</rect>
+<rect fill="#FF780088" height="10" width="0.94059426" x="868.2156" y="90">
+<title>
+cached_network_request 0.000s
+id: 2
+api: https://example.net/cached
+</title>
+</rect>
+<rect fill="#FF780088" height="10" width="16.683008" x="869.34296" y="150">
+<title>
+parse_cache 0.003s
+
+</title>
+</rect>
+<rect fill="#FF780088" height="10" width="0.19492914" x="886.8264" y="90">
+<title>
+cached_network_request 0.000s
+id: 2
+api: https://example.net/cached
+</title>
+</rect>
+<rect fill="#FF780088" height="10" width="0.028489057" x="887.3494" y="90">
+<title>
+cached_network_request 0.000s
+api: https://example.net/cached
+id: 2
+</title>
+</rect>
+<rect fill="#FF780088" height="10" width="0.23247723" x="887.8277" y="120">
+<title>
+read_cache 0.000s
+id: 3
+</title>
+</rect>
+<rect fill="#FF780088" height="10" width="0.42189288" x="887.75714" y="90">
+<title>
+cached_network_request 0.000s
+id: 3
+api: https://example.net/cached
+</title>
+</rect>
+<rect fill="#FF780088" height="10" width="0.21189788" x="905.35754" y="120">
+<title>
+read_cache 0.000s
+id: 3
+</title>
+</rect>
+<rect fill="#FF780088" height="10" width="0.032359887" x="905.89056" y="120">
+<title>
+read_cache 0.000s
+id: 3
+</title>
+</rect>
+<rect fill="#FF780088" height="10" width="0.17993918" x="906.4389" y="30">
+<title>
+make_network_request 0.000s
+id: 3
+api: https://example.net/cached
+</title>
+</rect>
+<rect fill="#FF780088" height="10" width="1.5281954" x="905.2142" y="90">
+<title>
+cached_network_request 0.000s
+id: 3
+api: https://example.net/cached
+</title>
+</rect>
+<rect fill="#FF780088" height="10" width="0.21824083" x="940.21027" y="30">
+<title>
+make_network_request 0.000s
+id: 3
+api: https://example.net/cached
+</title>
+</rect>
+<rect fill="#FF780088" height="10" width="0.03352005" x="940.7591" y="30">
+<title>
+make_network_request 0.000s
+api: https://example.net/cached
+id: 3
+</title>
+</rect>
+<rect fill="#FF780088" height="10" width="0.93547124" x="940.17084" y="90">
+<title>
+cached_network_request 0.000s
+id: 3
+api: https://example.net/cached
+</title>
+</rect>
+<rect fill="#FF780088" height="10" width="17.255209" x="941.80255" y="60">
+<title>
+parse_network 0.003s
+
+</title>
+</rect>
+<rect fill="#FF780088" height="10" width="0.19258171" x="960.0457" y="90">
+<title>
+cached_network_request 0.000s
+id: 3
+api: https://example.net/cached
+</title>
+</rect>
+<rect fill="#FF780088" height="10" width="0.027252996" x="960.55884" y="90">
+<title>
+cached_network_request 0.000s
+api: https://example.net/cached
+id: 3
+</title>
+</rect>
+<rect fill="#FF780088" height="10" width="0.25175545" x="994.9306" y="120">
+<title>
+read_cache 0.000s
+id: 0
+</title>
+</rect>
+<rect fill="#FF780088" height="10" width="0.6585391" x="994.85046" y="90">
+<title>
+cached_network_request 0.000s
+api: https://example.net/cached
+id: 0
+</title>
+</rect>
+<rect fill="#FF780088" height="10" width="0.06466013" x="995.7174" y="120">
+<title>
+read_cache 0.000s
+id: 1
+</title>
+</rect>
+<rect fill="#FF780088" height="10" width="0.21757942" x="995.6706" y="90">
+<title>
+cached_network_request 0.000s
+api: https://example.net/cached
+id: 1
+</title>
+</rect>
+<rect fill="#FF780088" height="10" width="0.050889976" x="996.0633" y="120">
+<title>
+read_cache 0.000s
+id: 2
+</title>
+</rect>
+<rect fill="#FF780088" height="10" width="0.19160044" x="996.0194" y="90">
+<title>
+cached_network_request 0.000s
+api: https://example.net/cached
+id: 2
+</title>
+</rect>
+<rect fill="#FF780088" height="10" width="0.20866136" x="1007.1132" y="120">
+<title>
+read_cache 0.000s
+id: 0
+</title>
+</rect>
+<rect fill="#FF780088" height="10" width="0.032457467" x="1007.64984" y="120">
+<title>
+read_cache 0.000s
+id: 0
+</title>
+</rect>
+<rect fill="#FF780088" height="10" width="0.13861783" x="1008.0516" y="30">
+<title>
+make_network_request 0.000s
+api: https://example.net/cached
+id: 0
+</title>
+</rect>
+<rect fill="#FF780088" height="10" width="1.2348096" x="1007.0767" y="90">
+<title>
+cached_network_request 0.000s
+id: 0
+api: https://example.net/cached
+</title>
+</rect>
+<rect fill="#FF780088" height="10" width="0.2189944" x="1008.4394" y="120">
+<title>
+read_cache 0.000s
+id: 2
+</title>
+</rect>
+<rect fill="#FF780088" height="10" width="0.028434847" x="1008.74304" y="120">
+<title>
+read_cache 0.000s
+id: 2
+</title>
+</rect>
+<rect fill="#FF780088" height="10" width="0.5590849" x="1008.4284" y="90">
+<title>
+cached_network_request 0.000s
+api: https://example.net/cached
+id: 2
+</title>
+</rect>
+<rect fill="#FF780088" height="10" width="0.20918722" x="1012.7166" y="120">
+<title>
+read_cache 0.000s
+id: 1
+</title>
+</rect>
+<rect fill="#FF780088" height="10" width="0.032755643" x="1013.2407" y="120">
+<title>
+read_cache 0.000s
+id: 1
+</title>
+</rect>
+<rect fill="#FF780088" height="10" width="0.13822751" x="1013.64185" y="30">
+<title>
+make_network_request 0.000s
+id: 1
+api: https://example.net/cached
+</title>
+</rect>
+<rect fill="#FF780088" height="10" width="1.2200474" x="1012.6787" y="90">
+<title>
+cached_network_request 0.000s
+api: https://example.net/cached
+id: 1
+</title>
+</rect>
+<rect fill="#FF780088" height="10" width="22.330343" x="1009.64453" y="150">
+<title>
+parse_cache 0.004s
+
+</title>
+</rect>
+<rect fill="#FF780088" height="10" width="0.18924758" x="1033.0588" y="90">
+<title>
+cached_network_request 0.000s
+id: 2
+api: https://example.net/cached
+</title>
+</rect>
+<rect fill="#FF780088" height="10" width="0.02759996" x="1033.5647" y="90">
+<title>
+cached_network_request 0.000s
+id: 2
+api: https://example.net/cached
+</title>
+</rect>
+<rect fill="#FF780088" height="10" width="0.23704198" x="1034.229" y="120">
+<title>
+read_cache 0.000s
+id: 3
+</title>
+</rect>
+<rect fill="#FF780088" height="10" width="0.47786802" x="1034.1096" y="90">
+<title>
+cached_network_request 0.000s
+api: https://example.net/cached
+id: 3
+</title>
+</rect>
+<rect fill="#FF780088" height="10" width="0.22656797" x="1051.6497" y="120">
+<title>
+read_cache 0.000s
+id: 3
+</title>
+</rect>
+<rect fill="#FF780088" height="10" width="0.03371522" x="1052.1927" y="120">
+<title>
+read_cache 0.000s
+id: 3
+</title>
+</rect>
+<rect fill="#FF780088" height="10" width="0.9218854" x="1051.6118" y="90">
+<title>
+cached_network_request 0.000s
+api: https://example.net/cached
+id: 3
+</title>
+</rect>
+<rect fill="#FF780088" height="10" width="0.21477659" x="1057.4961" y="30">
+<title>
+make_network_request 0.000s
+id: 0
+api: https://example.net/cached
+</title>
+</rect>
+<rect fill="#FF780088" height="10" width="0.032755643" x="1058.0669" y="30">
+<title>
+make_network_request 0.000s
+api: https://example.net/cached
+id: 0
+</title>
+</rect>
+<rect fill="#FF780088" height="10" width="0.95676076" x="1057.4587" y="90">
+<title>
+cached_network_request 0.000s
+id: 0
+api: https://example.net/cached
+</title>
+</rect>
+<rect fill="#FF780088" height="10" width="0.051404998" x="1058.55" y="30">
+<title>
+make_network_request 0.000s
+id: 1
+api: https://example.net/cached
+</title>
+</rect>
+<rect fill="#FF780088" height="10" width="0.029497426" x="1058.6982" y="30">
+<title>
+make_network_request 0.000s
+api: https://example.net/cached
+id: 1
+</title>
+</rect>
+<rect fill="#FF780088" height="10" width="0.33595407" x="1058.5394" y="90">
+<title>
+cached_network_request 0.000s
+api: https://example.net/cached
+id: 1
+</title>
+</rect>
+<rect fill="#FF780088" height="10" width="27.492393" x="1052.6575" y="150">
+<title>
+parse_cache 0.005s
+
+</title>
+</rect>
+<rect fill="#FF780088" height="10" width="0.19196367" x="1080.8701" y="90">
+<title>
+cached_network_request 0.000s
+api: https://example.net/cached
+id: 3
+</title>
+</rect>
+<rect fill="#FF780088" height="10" width="0.026260894" x="1081.3995" y="90">
+<title>
+cached_network_request 0.000s
+api: https://example.net/cached
+id: 3
+</title>
+</rect>
+<rect fill="#FF780088" height="10" width="27.682854" x="1059.0562" y="60">
+<title>
+parse_network 0.005s
+
+</title>
+</rect>
+<rect fill="#FF780088" height="10" width="0.19025053" x="1087.7502" y="90">
+<title>
+cached_network_request 0.000s
+id: 0
+api: https://example.net/cached
+</title>
+</rect>
+<rect fill="#FF780088" height="10" width="0.026613282" x="1088.263" y="90">
+<title>
+cached_network_request 0.000s
+id: 0
+api: https://example.net/cached
+</title>
+</rect>
+<rect fill="#FF780088" height="10" width="38.895805" x="1059.5225" y="60">
+<title>
+parse_network 0.007s
+
+</title>
+</rect>
+<rect fill="#FF780088" height="10" width="0.190424" x="1099.4663" y="90">
+<title>
+cached_network_request 0.000s
+api: https://example.net/cached
+id: 1
+</title>
+</rect>
+<rect fill="#FF780088" height="10" width="0.026613282" x="1099.9734" y="90">
+<title>
+cached_network_request 0.000s
+api: https://example.net/cached
+id: 1
+</title>
+</rect>
+<rect fill="#0076FF88" height="10" width="17.55602" x="995.7174" y="130">
+<title>
+read_cache 0.003s
+id: 1
+</title>
+</rect>
+<rect fill="#0076FF88" height="10" width="45.085793" x="1013.64185" y="40">
+<title>
+make_network_request 0.008s
+id: 1
+api: https://example.net/cached
+</title>
+</rect>
+<rect fill="#0076FF88" height="10" width="17.997543" x="1034.229" y="130">
+<title>
+read_cache 0.003s
+id: 3
+</title>
+</rect>
+<rect fill="#0076FF88" height="10" width="50.047924" x="1008.0516" y="40">
+<title>
+make_network_request 0.009s
+api: https://example.net/cached
+id: 0
+</title>
+</rect>
+<rect fill="#0076FF88" height="10" width="22.330343" x="1009.64453" y="160">
+<title>
+parse_cache 0.004s
+
+</title>
+</rect>
+<rect fill="#0076FF88" height="10" width="27.492393" x="1052.6575" y="160">
+<title>
+parse_cache 0.005s
+
+</title>
+</rect>
+<rect fill="#0076FF88" height="10" width="27.682854" x="1059.0562" y="70">
+<title>
+parse_network 0.005s
+
+</title>
+</rect>
+<rect fill="#0076FF88" height="10" width="38.895805" x="1059.5225" y="70">
+<title>
+parse_network 0.007s
+
+</title>
+</rect>
+<rect fill="#0076FF88" height="10" width="34.556866" x="590.52954" y="40">
+<title>
+make_network_request 0.006s
+id: 3
+api: https://example.org/uncached
+</title>
+</rect>
+<rect fill="#0076FF88" height="10" width="38.772865" x="626.9739" y="70">
+<title>
+parse_network 0.007s
+
+</title>
+</rect>
+<rect fill="#0076FF88" height="10" width="38.59608" x="636.73944" y="70">
+<title>
+parse_network 0.007s
+
+</title>
+</rect>
+<rect fill="#0076FF88" height="10" width="17.960745" x="710.07886" y="130">
+<title>
+read_cache 0.003s
+id: 0
+</title>
+</rect>
+<rect fill="#0076FF88" height="10" width="16.627289" x="728.5448" y="160">
+<title>
+parse_cache 0.003s
+
+</title>
+</rect>
+<rect fill="#0076FF88" height="10" width="18.015364" x="746.6067" y="130">
+<title>
+read_cache 0.003s
+id: 1
+</title>
+</rect>
+<rect fill="#0076FF88" height="10" width="50.57829" x="764.9942" y="40">
+<title>
+make_network_request 0.009s
+api: https://example.net/cached
+id: 1
+</title>
+</rect>
+<rect fill="#0076FF88" height="10" width="32.909992" x="816.025" y="70">
+<title>
+parse_network 0.006s
+
+</title>
+</rect>
+<rect fill="#0076FF88" height="10" width="17.973919" x="850.86646" y="130">
+<title>
+read_cache 0.003s
+id: 2
+</title>
+</rect>
+<rect fill="#0076FF88" height="10" width="16.683008" x="869.34296" y="160">
+<title>
+parse_cache 0.003s
+
+</title>
+</rect>
+<rect fill="#0076FF88" height="10" width="18.095156" x="887.8277" y="130">
+<title>
+read_cache 0.003s
+id: 3
+</title>
+</rect>
+<rect fill="#0076FF88" height="10" width="22.06474" x="624.8134" y="70">
+<title>
+parse_network 0.004s
+
+</title>
+</rect>
+<rect fill="#0076FF88" height="10" width="22.480545" x="632.2992" y="70">
+<title>
+parse_network 0.004s
+
+</title>
+</rect>
+<rect fill="#0076FF88" height="10" width="27.456667" x="357.83286" y="70">
+<title>
+parse_network 0.005s
+
+</title>
+</rect>
+<rect fill="#0076FF88" height="10" width="50.495296" x="386.26672" y="40">
+<title>
+make_network_request 0.009s
+api: https://example.org/uncached
+id: 2
+</title>
+</rect>
+<rect fill="#0076FF88" height="10" width="22.093584" x="437.20697" y="70">
+<title>
+parse_network 0.004s
+
+</title>
+</rect>
+<rect fill="#0076FF88" height="10" width="55.903862" x="460.1186" y="40">
+<title>
+make_network_request 0.010s
+id: 3
+api: https://example.org/uncached
+</title>
+</rect>
+<rect fill="#0076FF88" height="10" width="33.795708" x="250.00151" y="40">
+<title>
+make_network_request 0.006s
+id: 0
+api: https://example.org/uncached
+</title>
+</rect>
+<rect fill="#0076FF88" height="10" width="27.571959" x="284.41156" y="70">
+<title>
+parse_network 0.005s
+
+</title>
+</rect>
+<rect fill="#0076FF88" height="10" width="44.693577" x="312.80966" y="40">
+<title>
+make_network_request 0.008s
+id: 1
+api: https://example.org/uncached
+</title>
+</rect>
+<rect fill="#0076FF88" height="10" width="38.30685" x="516.4562" y="70">
+<title>
+parse_network 0.007s
+
+</title>
+</rect>
+<rect fill="#0076FF88" height="10" width="40.93642" x="589.3976" y="40">
+<title>
+make_network_request 0.008s
+id: 0
+api: https://example.org/uncached
+</title>
+</rect>
+<rect fill="#0076FF88" height="10" width="45.090183" x="590.1294" y="40">
+<title>
+make_network_request 0.008s
+id: 1
+api: https://example.org/uncached
+</title>
+</rect>
+<rect fill="#0076FF88" height="10" width="36.229076" x="709.92126" y="100">
+<title>
+cached_network_request 0.007s
+api: https://example.net/cached
+id: 0
+</title>
+</rect>
+<rect fill="#0076FF88" height="10" width="103.82179" x="746.5383" y="100">
+<title>
+cached_network_request 0.019s
+api: https://example.net/cached
+id: 1
+</title>
+</rect>
+<rect fill="#0076FF88" height="10" width="36.5812" x="850.7967" y="100">
+<title>
+cached_network_request 0.007s
+id: 2
+api: https://example.net/cached
+</title>
+</rect>
+<rect fill="#0076FF88" height="10" width="72.82901" x="887.75714" y="100">
+<title>
+cached_network_request 0.013s
+id: 3
+api: https://example.net/cached
+</title>
+</rect>
+<rect fill="#0076FF88" height="10" width="34.353676" x="906.4389" y="40">
+<title>
+make_network_request 0.006s
+id: 3
+api: https://example.net/cached
+</title>
+</rect>
+<rect fill="#0076FF88" height="10" width="17.255209" x="941.80255" y="70">
+<title>
+parse_network 0.003s
+
+</title>
+</rect>
+<rect fill="#0076FF88" height="10" width="12.751697" x="994.9306" y="130">
+<title>
+read_cache 0.002s
+id: 0
+</title>
+</rect>
+<rect fill="#0076FF88" height="10" width="93.43903" x="994.85046" y="100">
+<title>
+cached_network_request 0.017s
+api: https://example.net/cached
+id: 0
+</title>
+</rect>
+<rect fill="#0076FF88" height="10" width="104.32947" x="995.6706" y="100">
+<title>
+cached_network_request 0.019s
+api: https://example.net/cached
+id: 1
+</title>
+</rect>
+<rect fill="#0076FF88" height="10" width="37.572876" x="996.0194" y="100">
+<title>
+cached_network_request 0.007s
+api: https://example.net/cached
+id: 2
+</title>
+</rect>
+<rect fill="#0076FF88" height="10" width="47.31612" x="1034.1096" y="100">
+<title>
+cached_network_request 0.009s
+api: https://example.net/cached
+id: 3
+</title>
+</rect>
+<rect fill="#0076FF88" height="10" width="12.708142" x="996.0633" y="130">
+<title>
+read_cache 0.002s
+id: 2
+</title>
+</rect>
+<rect fill="#0076FF88" height="10" width="34.094475" x="590.33826" y="40">
+<title>
+make_network_request 0.006s
+id: 2
+api: https://example.org/uncached
+</title>
+</rect>
+</svg>
