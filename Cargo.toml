@@ -7,6 +7,7 @@ edition = "2021"
 description = "Record and visualize parallelism of tracing spans"
 license = "MIT OR Apache-2.0"
 readme = "Readme.md"
+repository = "https://github.com/konstin/tracing-durations-export"
 
 [[bin]]
 name = "plot"
