@@ -2,12 +2,14 @@
 
 [package]
 name = "tracing-durations-export"
-version = "0.1.1"
+version = "0.1.2"
 edition = "2021"
 description = "Record and visualize parallelism of tracing spans"
 license = "MIT OR Apache-2.0"
 readme = "Readme.md"
 repository = "https://github.com/konstin/tracing-durations-export"
+categories = ["asynchronous", "development-tools::debugging", "development-tools::profiling"]
+keywords = ["tracing"]
 
 [[bin]]
 name = "plot"
