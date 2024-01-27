@@ -17,6 +17,11 @@ struct Args {
     /// Remove spans shorter than this, in seconds
     #[clap(long)]
     min_length: Option<f32>,
+    /// If the is only one field, display its value inline.
+    ///
+    /// Since the text is not limited to its box, text can overlap and become unreadable.
+    #[clap(long)]
+    inline_field: bool,
     /// Remove spans with this name
     #[clap(long)]
     remove: Option<Vec<String>>,
@@ -51,6 +56,7 @@ fn main() -> Result<()> {
         multi_lane: args.multi_lane,
         min_length: args.min_length.map(Duration::from_secs_f32),
         remove: args.remove.map(|remove| remove.into_iter().collect()),
+        inline_field: args.inline_field,
         color_top: args.color_top,
         color_bottom: args.color_bottom,
     };

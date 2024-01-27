@@ -37,6 +37,10 @@ pub struct PlotConfig {
     pub min_length: Option<Duration>,
     /// Remove spans with this name.
     pub remove: Option<HashSet<String>>,
+    /// If the is only one field, display its value inline.
+    ///
+    /// Since the text is not limited to its box, text can overlap and become unreadable.
+    pub inline_field: bool,
     /// The color for the plots in the active region (default: semi-transparent orange).
     pub color_top: String,
     /// The color for the plots in the total region (default: semi-transparent blue).
@@ -49,6 +53,7 @@ impl Default for PlotConfig {
             multi_lane: false,
             min_length: None,
             remove: None,
+            inline_field: false,
             // TODO(konstin): Pick a proper color scheme, maybe ggplot or matplotlib?
             color_top: "#FF780088".to_string(),
             color_bottom: "#0076FF88".to_string(),
@@ -278,7 +283,8 @@ pub fn plot(
             .flatten()
             .map(|(key, value)| format!("{key}: {value}"))
             .join("\n");
-        format!("{} {:.3}s\n{}", span.name, span.secs(), fields)
+        // https://github.com/bodoni/svg/issues/76
+        format!("{} {:.3}s\n{}", span.name, span.secs(), fields).replace("<", "&lt;")
     };
 
     // Draw the active top half of each span
@@ -304,40 +310,53 @@ pub fn plot(
                 .set("height", layout.bar_height / 2)
                 .set("fill", config.color_top.to_string())
                 // Add tooltip
-                // https://github.com/bodoni/svg/issues/76
-                .add(Title::new().add(node::Text::new(format_tooltip(span).replace("<", "&lt;")))),
+                .add(Title::new().add(node::Text::new(format_tooltip(span)))),
         )
     }
 
     // Draw the total bottom half of each span
     for full_span in full_spans.values() {
+        let x = layout.text_col_width as f32
+            + layout.content_col_width as f32 * full_span.start.as_secs_f32() / end.as_secs_f32();
+        let y = name_offsets[full_span.name.as_str()]
+            * (layout.bar_height + layout.section_padding_height)
+            + extra_lane_height * extra_lanes_cumulative[full_span.name.as_str()]
+            + extra_lane_height * span_lanes[&full_span.id]
+            + layout.bar_height / 2;
+        let width = layout.content_col_width as f32
+            * (full_span.end - full_span.start).as_secs_f32()
+            / end.as_secs_f32();
+        let height = layout.bar_height / 2;
         document = document.add(
             Rectangle::new()
-                .set(
-                    "x",
-                    layout.text_col_width as f32
-                        + layout.content_col_width as f32 * full_span.start.as_secs_f32()
-                            / end.as_secs_f32(),
-                )
-                .set(
-                    "y",
-                    name_offsets[full_span.name.as_str()]
-                        * (layout.bar_height + layout.section_padding_height)
-                        + extra_lane_height * extra_lanes_cumulative[full_span.name.as_str()]
-                        + extra_lane_height * span_lanes[&full_span.id]
-                        + layout.bar_height / 2,
-                )
-                .set(
-                    "width",
-                    layout.content_col_width as f32
-                        * (full_span.end - full_span.start).as_secs_f32()
-                        / end.as_secs_f32(),
-                )
-                .set("height", layout.bar_height / 2)
+                .set("x", x)
+                .set("y", y)
+                .set("width", width)
+                .set("height", height)
                 .set("fill", config.color_bottom.to_string())
                 // Add tooltip
                 .add(Title::new().add(node::Text::new(format_tooltip(full_span)))),
-        )
+        );
+        let mut fields = full_span
+            .fields
+            .as_ref()
+            .map(|map| map.values())
+            .into_iter()
+            .flatten();
+        if let Some(value) = fields.next() {
+            if config.inline_field && fields.next().is_none() {
+                document = document.add(
+                    Text::new()
+                        // https://github.com/bodoni/svg/issues/76
+                        .add(node::Text::new(value.replace("<", "&lt;")))
+                        .set("x", x)
+                        .set("y", y + height / 2)
+                        .set("font-size", "0.7em")
+                        .set("dominant-baseline", "middle")
+                        .set("text-anchor", "start"),
+                )
+            }
+        }
     }
     document
 }

@@ -88,6 +88,13 @@ def main():
         help="Remove this span name (multiple use)",
     )
     parser.add_argument(
+        "--inline-field",
+        action="store_true",
+        help="If the is only one field, display its value inline. "
+        "Since the text is not limited to its box, text can overlap and "
+        "become unreadable.",
+    )
+    parser.add_argument(
         "--color-top",
         default="#FF780088",
         help="The color for the upper section of span active time",
@@ -283,6 +290,18 @@ def main():
         r = Rectangle(x, y, width, height, fill=args.color_bottom)
         r.append_title(tooltip)
         d.append(r)
+        if args.inline_field and len(full_span.fields) == 1:
+            text = next(iter(full_span.fields.values()))
+            d.append(
+                Text(
+                    text,
+                    "0.7em",
+                    x=x,
+                    y=y + height // 2,
+                    dominant_baseline="middle",
+                    text_anchor="start",
+                )
+            )
 
     d.save_svg(args.output or Path(args.input).with_suffix(".svg"))
 
