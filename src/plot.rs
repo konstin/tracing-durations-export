@@ -304,7 +304,8 @@ pub fn plot(
                 .set("height", layout.bar_height / 2)
                 .set("fill", config.color_top.to_string())
                 // Add tooltip
-                .add(Title::new().add(node::Text::new(format_tooltip(span)))),
+                // https://github.com/bodoni/svg/issues/76
+                .add(Title::new().add(node::Text::new(format_tooltip(span).replace("<", "&lt;")))),
         )
     }
 
