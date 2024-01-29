@@ -283,8 +283,7 @@ pub fn plot(
             .flatten()
             .map(|(key, value)| format!("{key}: {value}"))
             .join("\n");
-        // https://github.com/bodoni/svg/issues/76
-        format!("{} {:.3}s\n{}", span.name, span.secs(), fields).replace("<", "&lt;")
+        format!("{} {:.3}s\n{}", span.name, span.secs(), fields)
     };
 
     // Draw the active top half of each span
@@ -347,8 +346,7 @@ pub fn plot(
             if config.inline_field && fields.next().is_none() {
                 document = document.add(
                     Text::new()
-                        // https://github.com/bodoni/svg/issues/76
-                        .add(node::Text::new(value.replace("<", "&lt;")))
+                        .add(node::Text::new(value))
                         .set("x", x)
                         .set("y", y + height / 2)
                         .set("font-size", "0.7em")
