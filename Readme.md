@@ -60,6 +60,7 @@ and open `traces.svg`.
 For the plots at the beginning of the readme:
 
 ```shell
+TRACING_DURATION_EXPORT=examples/cached_network.ndjson cargo run --example cached_network
 cargo run --bin plot --features plot --features cli -- examples/cached_network.ndjson
 cargo run --bin plot --features plot --features cli -- --multi-lane examples/cached_network.ndjson --output examples/cached_network_multi_lane.svg
 ```

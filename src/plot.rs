@@ -19,6 +19,7 @@ pub struct OwnedSpanInfo {
     pub end: Duration,
     #[allow(dead_code)]
     pub parents: Option<Vec<u64>>,
+    pub is_main_thread: bool,
     pub fields: Option<HashMap<String, String>>,
 }
 
@@ -41,9 +42,12 @@ pub struct PlotConfig {
     ///
     /// Since the text is not limited to its box, text can overlap and become unreadable.
     pub inline_field: bool,
-    /// The color for the plots in the active region (default: semi-transparent orange).
-    pub color_top: String,
-    /// The color for the plots in the total region (default: semi-transparent blue).
+    /// The color for the plots in the active region, when running on the main thread. Default: semi-transparent orange
+    pub color_top_blocking: String,
+    /// The color for the plots in the active region, when the work offloaded from the main thread (with
+    /// `tokio::task::spawn_blocking`. Default: semi-transparent green
+    pub color_top_threadpool: String,
+    /// The color for the plots in the total region. Default: semi-transparent blue
     pub color_bottom: String,
 }
 
@@ -54,9 +58,10 @@ impl Default for PlotConfig {
             min_length: None,
             remove: None,
             inline_field: false,
-            // TODO(konstin): Pick a proper color scheme, maybe ggplot or matplotlib?
-            color_top: "#FF780088".to_string(),
-            color_bottom: "#0076FF88".to_string(),
+            // See http://www.cookbook-r.com/Graphs/Colors_(ggplot2)/#a-colorblind-friendly-palette
+            color_top_blocking: "#E69F0088".to_string(),
+            color_top_threadpool: "#009E7388".to_string(),
+            color_bottom: "#56B4E988".to_string(),
         }
     }
 }
@@ -289,6 +294,11 @@ pub fn plot(
     // Draw the active top half of each span
     for span in &spans {
         let offset = name_offsets[span.name.as_str()];
+        let color = if span.is_main_thread {
+            config.color_top_blocking.clone()
+        } else {
+            config.color_top_threadpool.clone()
+        };
         document = document.add(
             Rectangle::new()
                 .set(
@@ -307,7 +317,7 @@ pub fn plot(
                     layout.content_col_width as f32 * span.secs() / end.as_secs_f32(),
                 )
                 .set("height", layout.bar_height / 2)
-                .set("fill", config.color_top.to_string())
+                .set("fill", color)
                 // Add tooltip
                 .add(Title::new().add(node::Text::new(format_tooltip(span)))),
         )

@@ -59,7 +59,7 @@ async fn cached_network_request(api: &str, id: usize) -> String {
 
 #[tokio::main]
 async fn main() {
-    let (duration_layer, _guard) = if let Ok(location) = env::var("TRACING_DURATION_FILE") {
+    let (duration_layer, _guard) = if let Ok(location) = env::var("TRACING_DURATION_EXPORT") {
         let (layer, guard) = DurationsLayerBuilder::default()
             .durations_file(location)
             .build()

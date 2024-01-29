@@ -46,9 +46,6 @@
 //!
 //! Note that 0 is the time of the first span, not the start of the process.
 
-#[cfg(feature = "plot")]
-pub mod plot;
-
 use fs::File;
 use once_cell::sync::Lazy;
 use serde::Serialize;
@@ -67,6 +64,9 @@ use tracing_subscriber::layer::Context;
 use tracing_subscriber::registry::LookupSpan;
 use tracing_subscriber::Layer;
 
+#[cfg(feature = "plot")]
+pub mod plot;
+
 /// A zero timestamp initialized by the first span
 static START: Lazy<Instant> = Lazy::new(Instant::now);
 
@@ -80,6 +80,7 @@ pub struct SpanInfo<'a, RS = RandomState> {
     pub start: Duration,
     pub end: Duration,
     pub parents: Option<&'a [u64]>,
+    pub is_main_thread: bool,
     pub fields: Option<&'a HashMap<&'static str, String, RS>>,
 }
 
@@ -116,14 +117,17 @@ impl Default for DurationsLayerBuilder {
 }
 
 impl DurationsLayerBuilder {
+    /// This function needs to be called on the (tokio) main thread for accurate reporting.
     pub fn build<S>(self) -> io::Result<(DurationsLayer<S>, DurationsLayerDropGuard)> {
         let out = self
             .durations_file
             .map(|file| File::create(file).map(BufWriter::new))
             .transpose()?;
         let layer = DurationsLayer {
+            main_thead_id: std::thread::current().id(),
             start_index: Mutex::default(),
             fields: Mutex::default(),
+            is_main_thread: Mutex::new(Default::default()),
             out: Arc::new(Mutex::new(out)),
             #[cfg(feature = "plot")]
             plot_data: Arc::new(Mutex::default()),
@@ -261,7 +265,7 @@ pub struct DurationsLayerDropGuard {
 
 impl Drop for DurationsLayerDropGuard {
     fn drop(&mut self) {
-        if let Some(out) = self.out.lock().unwrap().as_mut() {
+        if let Some(out) = self.out.lock().expect("There was a prior panic").as_mut() {
             if let Err(err) = out.flush() {
                 eprintln!("`DurationLayer` failed to flush out file: {err}");
             }
@@ -280,7 +284,7 @@ impl Drop for DurationsLayerDropGuard {
                 // This is some only if the plot option was and any spans were recorded
                 if let Some(end) = end {
                     let svg = plot::plot(
-                        &self.plot_data.lock().unwrap(),
+                        &self.plot_data.lock().expect("There was a prior panic"),
                         end,
                         &self.plot_config,
                         &self.plot_layout,
@@ -296,10 +300,15 @@ impl Drop for DurationsLayerDropGuard {
 
 /// `tracing` layer to record which spans are active in parallel as ndjson.
 pub struct DurationsLayer<S, RS = RandomState> {
+    main_thead_id: std::thread::ThreadId,
+    // Each of the 3 fields below has different initialization:
+    //
     // TODO(konstin): Attach this as span extension instead?
     start_index: Mutex<HashMap<span::Id, Duration, RS>>,
     // TODO(konstin): Attach this as span extension instead?
     fields: Mutex<HashMap<span::Id, CollectedFields<RS>>>,
+    // TODO(konstin): Attach this as span extension instead?
+    is_main_thread: Mutex<HashMap<span::Id, bool>>,
     out: Arc<Mutex<Option<BufWriter<File>>>>,
     #[cfg(feature = "plot")]
     plot_data: Arc<Mutex<Vec<plot::OwnedSpanInfo>>>,
@@ -340,8 +349,18 @@ where
         if self.with_fields {
             let mut visitor = FieldsCollector::default();
             attrs.record(&mut visitor);
-            self.fields.lock().unwrap().insert(id.clone(), visitor.0);
+            self.fields
+                .lock()
+                .expect("There was a prior panic")
+                .insert(id.clone(), visitor.0);
         }
+        self.is_main_thread
+            .lock()
+            .expect("There was a prior panic")
+            .insert(
+                id.clone(),
+                self.main_thead_id == std::thread::current().id(),
+            );
     }
 
     /// Record the start timestamp
@@ -363,7 +382,7 @@ where
         } else {
             None
         };
-        let attributes = self.fields.lock().unwrap();
+        let attributes = self.fields.lock().expect("There was a prior panic");
         let fields = attributes.get(id);
         debug_assert!(
             !self.with_fields || fields.is_some(),
@@ -372,15 +391,17 @@ where
             id.into_u64()
         );
 
+        let is_main_thread = self.main_thead_id == std::thread::current().id();
         let span_info = SpanInfo {
             id: id.into_u64(),
             name: span.name(),
-            start: self.start_index.lock().unwrap()[id],
+            start: self.start_index.lock().expect("There was a prior panic")[id],
             end: START.elapsed(),
             parents: parents.as_deref(),
+            is_main_thread,
             fields,
         };
-        if let Some(mut writer) = self.out.lock().unwrap().as_mut() {
+        if let Some(mut writer) = self.out.lock().expect("There was a prior panic").as_mut() {
             // ndjson, write the json and then a newline
             serde_json::to_writer(&mut writer, &span_info).unwrap();
             writeln!(&mut writer).unwrap();
@@ -389,19 +410,23 @@ where
         #[cfg(feature = "plot")]
         {
             if self.plot_file.is_some() {
-                self.plot_data.lock().unwrap().push(plot::OwnedSpanInfo {
-                    id: id.into_u64(),
-                    name: span.name().to_string(),
-                    start: self.start_index.lock().unwrap()[id],
-                    end: START.elapsed(),
-                    parents,
-                    fields: fields.map(|fields| {
-                        fields
-                            .iter()
-                            .map(|(key, value)| (key.to_string(), value.to_string()))
-                            .collect()
-                    }),
-                })
+                self.plot_data
+                    .lock()
+                    .expect("There was a prior panic")
+                    .push(plot::OwnedSpanInfo {
+                        id: id.into_u64(),
+                        name: span.name().to_string(),
+                        start: self.start_index.lock().expect("There was a prior panic")[id],
+                        end: START.elapsed(),
+                        parents,
+                        is_main_thread,
+                        fields: fields.map(|fields| {
+                            fields
+                                .iter()
+                                .map(|(key, value)| (key.to_string(), value.to_string()))
+                                .collect()
+                        }),
+                    })
             }
         }
     }

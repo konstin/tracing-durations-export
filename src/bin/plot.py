@@ -40,6 +40,7 @@ class Span(BaseModel):
     start: Instant
     end: Instant
     parents: list[int]
+    is_main_thread: bool
     fields: dict[str, str]
 
     def start_secs(self) -> float:
@@ -94,14 +95,22 @@ def main():
         "Since the text is not limited to its box, text can overlap and "
         "become unreadable.",
     )
+    # See http://www.cookbook-r.com/Graphs/Colors_(ggplot2)/#a-colorblind-friendly-palette
     parser.add_argument(
-        "--color-top",
-        default="#FF780088",
-        help="The color for the upper section of span active time",
+        "--color-top-blocking",
+        default="#E69F0088",
+        help="The color for the upper section of span active time when running "
+        "on the main thread",
+    )
+    parser.add_argument(
+        "--color-top-threadpool",
+        default="#009E7388",
+        help="The color for the upper section of span active time when running "
+        "off the main thread (with `tokio::task::spawn_blocking`)",
     )
     parser.add_argument(
         "--color-bottom",
-        default="#0076FF88",
+        default="#56B4E988",
         help="The color for the lower section of span total time",
     )
     args = parser.parse_args()
@@ -260,7 +269,12 @@ def main():
         )
         width = content_col_width * span.duration() / last_end
         height = bar_height // 2
-        r = Rectangle(x, y, width, height, fill=args.color_top)
+        color = (
+            args.color_top_blocking
+            if span.is_main_thread
+            else args.color_top_threadpool
+        )
+        r = Rectangle(x, y, width, height, fill=color)
         r.append_title(tooltip)
         d.append(r)
 

@@ -25,10 +25,14 @@ struct Args {
     /// Remove spans with this name
     #[clap(long)]
     remove: Option<Vec<String>>,
-    /// The color for the plots in the active region (default: semi-transparent orange)
-    #[clap(long, default_value_t = PlotConfig::default().color_top)]
-    color_top: String,
-    /// The color for the plots in the total region (default: semi-transparent blue)
+    /// The color for the plots in the active region, when running on the main thread. Default: semi-transparent orange
+    #[clap(long, default_value_t = PlotConfig::default().color_top_blocking)]
+    color_top_blocking: String,
+    /// The color for the plots in the active region, when the work offloaded from the main thread (with
+    /// `tokio::task::spawn_blocking`. Default: semi-transparent green
+    #[clap(long, default_value_t = PlotConfig::default().color_top_threadpool)]
+    color_top_threadpool: String,
+    /// The color for the plots in the total region. Default: semi-transparent blue
     #[clap(long, default_value_t = PlotConfig::default().color_bottom)]
     color_bottom: String,
 }
@@ -57,7 +61,8 @@ fn main() -> Result<()> {
         min_length: args.min_length.map(Duration::from_secs_f32),
         remove: args.remove.map(|remove| remove.into_iter().collect()),
         inline_field: args.inline_field,
-        color_top: args.color_top,
+        color_top_blocking: args.color_top_blocking,
+        color_top_threadpool: args.color_top_threadpool,
         color_bottom: args.color_bottom,
     };
 
