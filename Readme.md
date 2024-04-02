@@ -36,11 +36,10 @@ fn setup_global_subscriber() -> DurationsLayerDropGuard {
         // .plot_file("traces.svg")
         .build()
         .unwrap();
-    let subscriber = Registry::default()
+    let subscriber = tracing_subscriber::registry()
         .with(fmt_layer)
-        .with(duration_layer);
-
-    tracing::subscriber::set_global_default(subscriber).unwrap();
+        .with(duration_layer)
+        .init();
 
     guard
 }
