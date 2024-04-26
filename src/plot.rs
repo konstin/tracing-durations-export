@@ -1,14 +1,14 @@
 //! Visualize the spans and save the plot as svg.
 
+use std::collections::{HashMap, HashSet};
+use std::collections::hash_map::Entry;
+use std::time::Duration;
+
 use itertools::Itertools;
 use rustc_hash::FxHashMap;
 use serde::Deserialize;
-use std::collections::hash_map::Entry;
-use std::collections::{HashMap, HashSet};
-use std::time::Duration;
-use svg::node;
-use svg::node::element::{Rectangle, Text, Title, SVG};
 use svg::Document;
+use svg::node::element::{Rectangle, SVG, Text, Title};
 
 /// Owned type for deserialization.
 #[derive(Deserialize, Clone)]
@@ -233,16 +233,14 @@ pub fn plot(
 
     document = document
         .add(
-            Text::new()
-                .add(node::Text::new("0s"))
+            Text::new("0s")
                 .set("x", layout.text_col_width)
                 .set("y", layout.padding_top + layout.bar_height / 2)
                 .set("dominant-baseline", "middle")
                 .set("text-anchor", "start"),
         )
         .add(
-            Text::new()
-                .add(node::Text::new(format!("{:.3}s", end.as_secs_f32())))
+            Text::new(format!("{:.3}s", end.as_secs_f32()))
                 .set("x", layout.text_col_width + layout.content_col_width)
                 .set("y", layout.padding_top + layout.bar_height / 2)
                 .set("dominant-baseline", "middle")
@@ -251,12 +249,12 @@ pub fn plot(
 
     if let Some(min_length) = config.min_length {
         // Add a note about filtered out spans
+        let text = format!(
+            "only spans >{}s",
+            min_length.as_secs_f32()
+        );
         document = document.add(
-            Text::new()
-                .add(node::Text::new(format!(
-                    "only spans >{}s",
-                    min_length.as_secs_f32()
-                )))
+            Text::new(text)
                 .set("x", layout.padding_left)
                 .set("y", layout.padding_top + layout.bar_height / 2)
                 .set("dominant-baseline", "middle")
@@ -267,8 +265,7 @@ pub fn plot(
     // Draw the legend on the left
     for (name, offset) in &name_offsets {
         document = document.add(
-            Text::new()
-                .add(node::Text::new(name.to_string()))
+            Text::new(name.to_string())
                 .set("x", layout.padding_left)
                 .set(
                     "y",
@@ -305,7 +302,7 @@ pub fn plot(
                     "x",
                     layout.text_col_width as f32
                         + layout.content_col_width as f32 * span.start.as_secs_f32()
-                            / end.as_secs_f32(),
+                        / end.as_secs_f32(),
                 )
                 .set(
                     "y",
@@ -319,7 +316,7 @@ pub fn plot(
                 .set("height", layout.bar_height / 2)
                 .set("fill", color)
                 // Add tooltip
-                .add(Title::new().add(node::Text::new(format_tooltip(span)))),
+                .add(Title::new(format_tooltip(span))),
         )
     }
 
@@ -344,7 +341,7 @@ pub fn plot(
                 .set("height", height)
                 .set("fill", config.color_bottom.to_string())
                 // Add tooltip
-                .add(Title::new().add(node::Text::new(format_tooltip(full_span)))),
+                .add(Title::new(format_tooltip(full_span))),
         );
         let mut fields = full_span
             .fields
@@ -355,8 +352,7 @@ pub fn plot(
         if let Some(value) = fields.next() {
             if config.inline_field && fields.next().is_none() {
                 document = document.add(
-                    Text::new()
-                        .add(node::Text::new(value))
+                    Text::new(value)
                         .set("x", x)
                         .set("y", y + height / 2)
                         .set("font-size", "0.7em")
