@@ -79,3 +79,21 @@ The `traces.ndjson` output file will look something like below, where each secti
 ```
 
 Note that 0 is the time of the first span, not the start of the process.
+
+## Case Study
+
+This is an example from the dependency resolver [uv](https://github.com/astral-sh/uv). We make a guess about what versions fit the user's constraints, and then has to fetch the metadata for them to check if those versions are compatible. In this particular case, we have to try a lot of versions for two packages called `boto3` and `botocoro`. Previously, trying would happen sequentially:
+
+![A plot without much parallelism, 43s total](examples/uv_1.png)
+
+We can optimize this by speculating: We make a guess about what versions could fit and also what version we would try next if that didn't work out, and fetch in parallel ([Pull request](https://github.com/astral-sh/uv/pull/2452)):
+
+![A plot with some parallelism, but in spikes with non-parallel sections in between, 25s total](examples/uv_2.png)
+
+This is faster, but you can see we're having phases of a lot of parallelism with sequential regions in between. Hovering over the spans in the svg version in a browser, we could see that we were only prefetching `boto3` in parallel, but not `botocore`. With a fix that prefetches both:
+
+![A with a lot parallelism, 2s total](examples/uv_3.png)
+
+Now we're taking 2s instead of 43s, so the initial section expanded, but what you can mainly see is that we're highly parallel now.
+
+Another case study is [this pull request](https://github.com/astral-sh/uv/pull/1163), where we replaced a sync channel with an async channel, and the yielding would unlock parallelism. You can also see the impact of `spawn_blocking` there.
