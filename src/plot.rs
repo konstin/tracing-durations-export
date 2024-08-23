@@ -1,14 +1,14 @@
 //! Visualize the spans and save the plot as svg.
 
-use std::collections::{HashMap, HashSet};
 use std::collections::hash_map::Entry;
+use std::collections::{HashMap, HashSet};
 use std::time::Duration;
 
 use itertools::Itertools;
 use rustc_hash::FxHashMap;
 use serde::Deserialize;
+use svg::node::element::{Rectangle, Text, Title, SVG};
 use svg::Document;
-use svg::node::element::{Rectangle, SVG, Text, Title};
 
 /// Owned type for deserialization.
 #[derive(Deserialize, Clone)]
@@ -249,10 +249,7 @@ pub fn plot(
 
     if let Some(min_length) = config.min_length {
         // Add a note about filtered out spans
-        let text = format!(
-            "only spans >{}s",
-            min_length.as_secs_f32()
-        );
+        let text = format!("only spans >{}s", min_length.as_secs_f32());
         document = document.add(
             Text::new(text)
                 .set("x", layout.padding_left)
@@ -302,7 +299,7 @@ pub fn plot(
                     "x",
                     layout.text_col_width as f32
                         + layout.content_col_width as f32 * span.start.as_secs_f32()
-                        / end.as_secs_f32(),
+                            / end.as_secs_f32(),
                 )
                 .set(
                     "y",

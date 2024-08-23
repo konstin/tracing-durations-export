@@ -20,7 +20,7 @@
 //!     let subscriber = Registry::default()
 //!         .with(fmt_layer)
 //!         .with(duration_layer);
-//!     
+//!
 //!     tracing::subscriber::set_global_default(subscriber).unwrap();
 //!
 //!     guard
@@ -70,7 +70,7 @@ pub mod plot;
 /// A zero timestamp initialized by the first span
 static START: Lazy<Instant> = Lazy::new(Instant::now);
 
-/// A recorded active section of a span.  
+/// A recorded active section of a span.
 #[derive(Serialize)]
 // Remove bound on `RandomState`
 #[serde(bound(serialize = ""))]
@@ -179,7 +179,7 @@ impl DurationsLayerBuilder {
     /// ```rust
     /// # use tracing::info_span;
     /// info_span!("make_request", host = "example.org", object = 10);
-    /// ```    
+    /// ```
     ///
     /// With `true`:
     /// ```json
@@ -199,7 +199,7 @@ impl DurationsLayerBuilder {
 
     /// Record all span active durations as ndjson.
     ///
-    /// Example output line, see [module level documentation](`crate`) for more details.    
+    /// Example output line, see [module level documentation](`crate`) for more details.
     ///
     /// ```ndjson
     /// {"id":6,"name":"read_cache","start":{"secs":0,"nanos":122457871},"end":{"secs":0,"nanos":122463135},"parents":[3,4],"fields":{"id":"2"}}
@@ -401,6 +401,8 @@ where
             is_main_thread,
             fields,
         };
+        // https://github.com/rust-lang/rust-clippy/pull/12892
+        #[allow(clippy::needless_borrows_for_generic_args)]
         if let Some(mut writer) = self.out.lock().expect("There was a prior panic").as_mut() {
             // ndjson, write the json and then a newline
             serde_json::to_writer(&mut writer, &span_info).unwrap();
