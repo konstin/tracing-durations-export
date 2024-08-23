@@ -10,6 +10,7 @@ Usage:
 python plot.py traces.ndjson
 ```
 """
+
 import os
 from argparse import ArgumentParser
 from collections import defaultdict

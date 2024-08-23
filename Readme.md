@@ -65,7 +65,7 @@ cargo run --bin plot --features plot --features cli -- --multi-lane examples/cac
 
 The `traces.ndjson` output file will look something like below, where each section where a span is active is one line.
 
-```ndjson
+````ndjson
 [...]
 {"id":6,"name":"read_cache","start":{"secs":0,"nanos":122457871},"end":{"secs":0,"nanos":122463135},"parents":[5],"fields":{"id":"2"}}
 {"id":5,"name":"cached_network_request","start":{"secs":0,"nanos":122433854},"end":{"secs":0,"nanos":122499689},"parents":[],"fields":{"id":"2","api":"https://example.net/cached"}}
@@ -76,7 +76,7 @@ The `traces.ndjson` output file will look something like below, where each secti
 {"id":2251799813685253,"name":"cached_network_request","start":{"secs":0,"nanos":126144140},"end":{"secs":0,"nanos":126213181},"parents":[],"fields":{"api":"https://example.net/cached","id":"3"}}
 {"id":27021597764222977,"name":"make_network_request","start":{"secs":0,"nanos":128343009},"end":{"secs":0,"nanos":128383121},"parents":[13510798882111491],"fields":{"api":"https://example.net/cached","id":"0"}}```
 [...]
-```
+````
 
 Note that 0 is the time of the first span, not the start of the process.
 
