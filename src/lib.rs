@@ -246,7 +246,7 @@ impl tracing::field::Visit for FieldsCollector {
     }
 
     fn record_debug(&mut self, field: &Field, value: &dyn Debug) {
-        self.0.insert(field.name(), format!("{:?}", value));
+        self.0.insert(field.name(), format!("{value:?}"));
     }
 }
 
