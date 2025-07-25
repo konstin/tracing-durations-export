@@ -10,17 +10,17 @@ use tracing_subscriber::util::SubscriberInitExt;
 
 #[instrument]
 async fn make_network_request(api: &str, id: usize) -> String {
-    let millis = rand::thread_rng().gen_range(5..10);
+    let millis = rand::rng().random_range(5..10);
     tokio::time::sleep(Duration::from_millis(millis)).await;
     format!("{api} {id}")
 }
 
 #[instrument]
 async fn read_cache(id: usize) -> Option<String> {
-    let millis = rand::thread_rng().gen_range(1..3);
+    let millis = rand::rng().random_range(1..3);
     tokio::time::sleep(Duration::from_millis(millis)).await;
     // There's a 50% change there's a cache entry
-    if rand::thread_rng().gen_bool(0.5) {
+    if rand::rng().random_bool(0.5) {
         Some(format!("cached({id})"))
     } else {
         None
@@ -30,7 +30,7 @@ async fn read_cache(id: usize) -> Option<String> {
 /// cpu intensive, blocking method
 #[instrument(skip_all)]
 fn parse_cache(data: &str) -> String {
-    let millis = rand::thread_rng().gen_range(2..6);
+    let millis = rand::rng().random_range(2..6);
     std::thread::sleep(Duration::from_millis(millis));
     format!("from_cache({data})")
 }
@@ -38,7 +38,7 @@ fn parse_cache(data: &str) -> String {
 /// cpu intensive, blocking method
 #[instrument(skip_all)]
 fn parse_network(data: &str) -> String {
-    let millis = rand::thread_rng().gen_range(3..8);
+    let millis = rand::rng().random_range(3..8);
     std::thread::sleep(Duration::from_millis(millis));
     format!("from_network({data})")
 }
