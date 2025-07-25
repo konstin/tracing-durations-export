@@ -2,7 +2,7 @@
 
 [package]
 name = "tracing-durations-export"
-version = "0.3.0"
+version = "0.3.1"
 edition = "2021"
 description = "Record and visualize parallelism of tracing spans"
 license = "MIT OR Apache-2.0"
