@@ -1,5 +1,5 @@
 use futures::StreamExt;
-use rand::Rng;
+use rand::RngExt;
 use std::env;
 use std::time::Duration;
 use tokio::task::spawn_blocking;

@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.3.2
+
+- Update dependencies
+
 ## 0.3.1
 
 - Update dependencies
@@ -15,9 +19,9 @@
   threadpool. The former is used when the task is running on the main thread, the latter is used when it's offloaded to
   the threadpool.
 - Colorblind friendly default colors (http://www.cookbook-r.com/Graphs/Colors_(ggplot2)/#a-colorblind-friendly-palette):
-  - color top blocking: #E69F0088
-  - color top threadpool: #56B4E988
-  - color bottom: #E69F0088
+    - color top blocking: #E69F0088
+    - color top threadpool: #56B4E988
+    - color bottom: #E69F0088
 
 ## 0.1.2
 
