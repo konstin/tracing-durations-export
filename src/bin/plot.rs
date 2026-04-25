@@ -35,6 +35,12 @@ struct Args {
     /// The color for the plots in the total region. Default: semi-transparent blue
     #[clap(long, default_value_t = PlotConfig::default().color_bottom)]
     color_bottom: String,
+    /// Do not draw the active regions.
+    #[clap(long)]
+    skip_top: bool,
+    /// Do not draw the total durations regions.
+    #[clap(long)]
+    skip_bottom: bool,
 }
 
 fn main() -> Result<()> {
@@ -64,6 +70,8 @@ fn main() -> Result<()> {
         color_top_blocking: args.color_top_blocking,
         color_top_threadpool: args.color_top_threadpool,
         color_bottom: args.color_bottom,
+        skip_top: args.skip_top,
+        skip_bottom: args.skip_bottom,
     };
 
     let document = plot(&spans, end, &plot_config, &PlotLayout::default());

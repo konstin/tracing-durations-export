@@ -49,6 +49,10 @@ pub struct PlotConfig {
     pub color_top_threadpool: String,
     /// The color for the plots in the total region. Default: semi-transparent blue
     pub color_bottom: String,
+    /// Do not draw the active regions.
+    pub skip_top: bool,
+    /// Do not draw the total durations regions.
+    pub skip_bottom: bool,
 }
 
 impl Default for PlotConfig {
@@ -62,6 +66,8 @@ impl Default for PlotConfig {
             color_top_blocking: "#E69F0088".to_string(),
             color_top_threadpool: "#009E7388".to_string(),
             color_bottom: "#56B4E988".to_string(),
+            skip_top: false,
+            skip_bottom: false,
         }
     }
 }
@@ -125,6 +131,8 @@ pub fn plot(
         spans.to_vec()
     };
 
+    // Spans can enter and exit multiple times, so we need to collec the duration of first start
+    // and last end to get the full span duration.
     let mut full_spans: FxHashMap<u64, OwnedSpanInfo> = FxHashMap::default();
     for span in &spans {
         // These are in order because a span is emitted when it exits and exit must happen before
@@ -132,7 +140,7 @@ pub fn plot(
         full_spans.entry(span.id).or_insert(span.clone()).end = span.end;
     }
 
-    // Remove to short spans
+    // Remove too short spans
     // TODO(konstin): Again, copy on write?
     let (spans, full_spans) = if let Some(min_length) = config.min_length {
         let mut removed_ids = HashSet::new();
@@ -213,7 +221,7 @@ pub fn plot(
     let mut extra_lanes_cumulative = HashMap::new();
     for (name, _start) in earliest_starts {
         extra_lanes_cumulative.insert(name, extra_lanes_cur);
-        extra_lanes_cur += lanes_end[name].len() - 1;
+        extra_lanes_cur += lanes_end.get(name).map_or(0, |lanes| lanes.len() - 1);
     }
 
     let total_width = layout.padding_left
@@ -231,6 +239,7 @@ pub fn plot(
         .set("height", total_height)
         .set("viewBox", (0, 0, total_width, total_height));
 
+    // Add the "timeline" of start and stop time.
     document = document
         .add(
             Text::new("0s")
@@ -247,8 +256,8 @@ pub fn plot(
                 .set("text-anchor", "end"),
         );
 
+    // Add a note about filtered out spans
     if let Some(min_length) = config.min_length {
-        // Add a note about filtered out spans
         let text = format!("only spans >{}s", min_length.as_secs_f32());
         document = document.add(
             Text::new(text)
@@ -286,78 +295,84 @@ pub fn plot(
     };
 
     // Draw the active top half of each span
-    for span in &spans {
-        let offset = name_offsets[span.name.as_str()];
-        let color = if span.is_main_thread {
-            config.color_top_blocking.clone()
-        } else {
-            config.color_top_threadpool.clone()
-        };
-        document = document.add(
-            Rectangle::new()
-                .set(
-                    "x",
-                    layout.text_col_width as f32
-                        + layout.content_col_width as f32 * span.start.as_secs_f32()
-                            / end.as_secs_f32(),
-                )
-                .set(
-                    "y",
-                    offset * (layout.bar_height + layout.section_padding_height)
-                        + extra_lane_height * extra_lanes_cumulative[span.name.as_str()],
-                )
-                .set(
-                    "width",
-                    layout.content_col_width as f32 * span.secs() / end.as_secs_f32(),
-                )
-                .set("height", layout.bar_height / 2)
-                .set("fill", color)
-                // Add tooltip
-                .add(Title::new(format_tooltip(span))),
-        )
+    if !config.skip_top {
+        for span in &spans {
+            let offset = name_offsets[span.name.as_str()];
+            let color = if span.is_main_thread {
+                config.color_top_blocking.clone()
+            } else {
+                config.color_top_threadpool.clone()
+            };
+            document = document.add(
+                Rectangle::new()
+                    .set(
+                        "x",
+                        layout.text_col_width as f32
+                            + layout.content_col_width as f32 * span.start.as_secs_f32()
+                                / end.as_secs_f32(),
+                    )
+                    .set(
+                        "y",
+                        offset * (layout.bar_height + layout.section_padding_height)
+                            + extra_lane_height * extra_lanes_cumulative[span.name.as_str()],
+                    )
+                    .set(
+                        "width",
+                        layout.content_col_width as f32 * span.secs() / end.as_secs_f32(),
+                    )
+                    .set("height", layout.bar_height / 2)
+                    .set("fill", color)
+                    // Add tooltip
+                    .add(Title::new(format_tooltip(span))),
+            )
+        }
     }
 
     // Draw the total bottom half of each span
-    for full_span in full_spans.values() {
-        let x = layout.text_col_width as f32
-            + layout.content_col_width as f32 * full_span.start.as_secs_f32() / end.as_secs_f32();
-        let y = name_offsets[full_span.name.as_str()]
-            * (layout.bar_height + layout.section_padding_height)
-            + extra_lane_height * extra_lanes_cumulative[full_span.name.as_str()]
-            + extra_lane_height * span_lanes[&full_span.id]
-            + layout.bar_height / 2;
-        let width = layout.content_col_width as f32
-            * (full_span.end - full_span.start).as_secs_f32()
-            / end.as_secs_f32();
-        let height = layout.bar_height / 2;
-        document = document.add(
-            Rectangle::new()
-                .set("x", x)
-                .set("y", y)
-                .set("width", width)
-                .set("height", height)
-                .set("fill", config.color_bottom.to_string())
-                // Add tooltip
-                .add(Title::new(format_tooltip(full_span))),
-        );
-        let mut fields = full_span
-            .fields
-            .as_ref()
-            .map(|map| map.values())
-            .into_iter()
-            .flatten();
-        if let Some(value) = fields.next() {
-            if config.inline_field && fields.next().is_none() {
-                document = document.add(
-                    Text::new(value)
-                        .set("x", x)
-                        .set("y", y + height / 2)
-                        .set("font-size", "0.7em")
-                        .set("dominant-baseline", "middle")
-                        .set("text-anchor", "start"),
-                )
+    if !config.skip_bottom {
+        for full_span in full_spans.values() {
+            let x = layout.text_col_width as f32
+                + layout.content_col_width as f32 * full_span.start.as_secs_f32()
+                    / end.as_secs_f32();
+            let y = name_offsets[full_span.name.as_str()]
+                * (layout.bar_height + layout.section_padding_height)
+                + extra_lane_height * extra_lanes_cumulative[full_span.name.as_str()]
+                + extra_lane_height * span_lanes[&full_span.id]
+                + layout.bar_height / 2;
+            let width = layout.content_col_width as f32
+                * (full_span.end - full_span.start).as_secs_f32()
+                / end.as_secs_f32();
+            let height = layout.bar_height / 2;
+            document = document.add(
+                Rectangle::new()
+                    .set("x", x)
+                    .set("y", y)
+                    .set("width", width)
+                    .set("height", height)
+                    .set("fill", config.color_bottom.to_string())
+                    // Add tooltip
+                    .add(Title::new(format_tooltip(full_span))),
+            );
+            let mut fields = full_span
+                .fields
+                .as_ref()
+                .map(|map| map.values())
+                .into_iter()
+                .flatten();
+            if let Some(value) = fields.next() {
+                if config.inline_field && fields.next().is_none() {
+                    document = document.add(
+                        Text::new(value)
+                            .set("x", x)
+                            .set("y", y + height / 2)
+                            .set("font-size", "0.7em")
+                            .set("dominant-baseline", "middle")
+                            .set("text-anchor", "start"),
+                    )
+                }
             }
         }
     }
+
     document
 }
