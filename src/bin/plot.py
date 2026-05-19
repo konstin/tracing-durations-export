@@ -1,13 +1,15 @@
 #!/usr/bin/env python3
+# /// script
+# requires-python = ">=3.14"
+# dependencies = [
+#   "drawsvg>=2,<3",
+#   "pydantic>=2,<3",
+# ]
+# ///
 """
-Installation:
-```shell
-pip install "drawsvg>=2,<3" "pydantic>=2,<3"
-```
-
 Usage:
 ```shell
-python plot.py traces.ndjson
+uv run src/bin/plot.py traces.ndjson
 ```
 """
 
