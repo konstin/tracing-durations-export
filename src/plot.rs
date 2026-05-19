@@ -131,8 +131,8 @@ pub fn plot(
         spans.to_vec()
     };
 
-    // Spans can enter and exit multiple times, so we need to collec the duration of first start
-    // and last end to get the full span duration.
+    // Spans can enter and exit multiple times, so we need to collect the duration from first start
+    // to last end to get the full span duration.
     let mut full_spans: FxHashMap<u64, OwnedSpanInfo> = FxHashMap::default();
     for span in &spans {
         // These are in order because a span is emitted when it exits and exit must happen before
