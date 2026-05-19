@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.3.5
+
+- Support dark mode in SVG export
+- Use PEP 723 inline script metadata and a lockfile for `plot.py`
+
 ## 0.3.4
 
 - Use unique IDs for exported spans
