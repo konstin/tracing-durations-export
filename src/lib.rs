@@ -55,6 +55,7 @@ use std::fmt::Debug;
 use std::io::{BufWriter, Write};
 use std::marker::PhantomData;
 use std::path::PathBuf;
+use std::sync::atomic::{AtomicU64, Ordering};
 use std::sync::{Arc, Mutex};
 use std::time::{Duration, Instant};
 use std::{io, iter};
@@ -128,6 +129,8 @@ impl DurationsLayerBuilder {
             start_index: Mutex::default(),
             fields: Mutex::default(),
             is_main_thread: Mutex::new(Default::default()),
+            export_ids: Mutex::default(),
+            next_export_id: AtomicU64::new(1),
             out: Arc::new(Mutex::new(out)),
             #[cfg(feature = "plot")]
             plot_data: Arc::new(Mutex::default()),
@@ -309,6 +312,11 @@ pub struct DurationsLayer<S, RS = RandomState> {
     fields: Mutex<HashMap<span::Id, CollectedFields<RS>>>,
     // TODO(konstin): Attach this as span extension instead?
     is_main_thread: Mutex<HashMap<span::Id, bool>>,
+    // TODO(konstin): Attach this as span extension instead?
+    /// <https://github.com/tokio-rs/tracing/blob/f40ccdaa03cf114c7ee1ef14949207626bf6be57/tracing-subscriber/src/registry/sharded.rs#L41-L77>
+    export_ids: Mutex<HashMap<span::Id, u64, RS>>,
+    /// <https://github.com/tokio-rs/tracing/blob/f40ccdaa03cf114c7ee1ef14949207626bf6be57/tracing-subscriber/src/registry/sharded.rs#L41-L77>
+    next_export_id: AtomicU64,
     out: Arc<Mutex<Option<BufWriter<File>>>>,
     #[cfg(feature = "plot")]
     plot_data: Arc<Mutex<Vec<plot::OwnedSpanInfo>>>,
@@ -345,6 +353,14 @@ where
 {
     /// Record the fields
     fn on_new_span(&self, attrs: &span::Attributes<'_>, id: &span::Id, _ctx: Context<'_, S>) {
+        self.export_ids
+            .lock()
+            .expect("There was a prior panic")
+            .insert(
+                id.clone(),
+                self.next_export_id.fetch_add(1, Ordering::Relaxed),
+            );
+
         // We only get the fields here (i think they aren't stored with the span?), so we have to record them here
         if self.with_fields {
             let mut visitor = FieldsCollector::default();
@@ -374,14 +390,23 @@ where
     /// Write a record to the ndjson writer
     fn on_exit(&self, id: &span::Id, ctx: Context<'_, S>) {
         let span = ctx.span(id).unwrap();
+        let export_ids = self.export_ids.lock().expect("There was a prior panic");
+        let export_id = export_ids.get(id).copied().unwrap_or_else(|| id.into_u64());
         let parents = if self.with_parents {
             let parents = iter::successors(span.parent(), |span| span.parent())
-                .map(|span| span.id().into_u64())
+                .map(|span| {
+                    let id = span.id();
+                    export_ids
+                        .get(&id)
+                        .copied()
+                        .unwrap_or_else(|| id.into_u64())
+                })
                 .collect::<Vec<_>>();
             Some(parents)
         } else {
             None
         };
+        drop(export_ids);
         let attributes = self.fields.lock().expect("There was a prior panic");
         let fields = attributes.get(id);
         debug_assert!(
@@ -393,7 +418,7 @@ where
 
         let is_main_thread = self.main_thead_id == std::thread::current().id();
         let span_info = SpanInfo {
-            id: id.into_u64(),
+            id: export_id,
             name: span.name(),
             start: self.start_index.lock().expect("There was a prior panic")[id],
             end: START.elapsed(),
@@ -416,7 +441,7 @@ where
                     .lock()
                     .expect("There was a prior panic")
                     .push(plot::OwnedSpanInfo {
-                        id: id.into_u64(),
+                        id: export_id,
                         name: span.name().to_string(),
                         start: self.start_index.lock().expect("There was a prior panic")[id],
                         end: START.elapsed(),
@@ -431,5 +456,24 @@ where
                     })
             }
         }
+    }
+
+    fn on_close(&self, id: span::Id, _ctx: Context<'_, S>) {
+        self.start_index
+            .lock()
+            .expect("There was a prior panic")
+            .remove(&id);
+        self.fields
+            .lock()
+            .expect("There was a prior panic")
+            .remove(&id);
+        self.is_main_thread
+            .lock()
+            .expect("There was a prior panic")
+            .remove(&id);
+        self.export_ids
+            .lock()
+            .expect("There was a prior panic")
+            .remove(&id);
     }
 }
