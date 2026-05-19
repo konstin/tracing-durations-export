@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.3.4
+
+- Use unique IDs for exported spans
+
 ## 0.3.3
 
 - Add options to skip rendering the top or bottom spans
