@@ -7,8 +7,31 @@ use std::time::Duration;
 use itertools::Itertools;
 use rustc_hash::FxHashMap;
 use serde::Deserialize;
-use svg::node::element::{Rectangle, Text, Title, SVG};
+use svg::node::element::{Rectangle, Style, Text, Title, SVG};
 use svg::Document;
+
+const PLOT_STYLE: &str = r#"
+:root {
+  color-scheme: light dark;
+  --plot-background: #ffffff;
+  --plot-foreground: #111827;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --plot-background: #111827;
+    --plot-foreground: #e5e7eb;
+  }
+}
+
+.plot-background {
+  fill: var(--plot-background);
+}
+
+text {
+  fill: var(--plot-foreground);
+}
+"#;
 
 /// Owned type for deserialization.
 #[derive(Deserialize, Clone)]
@@ -237,7 +260,17 @@ pub fn plot(
     let mut document = Document::new()
         .set("width", total_width)
         .set("height", total_height)
-        .set("viewBox", (0, 0, total_width, total_height));
+        .set("viewBox", (0, 0, total_width, total_height))
+        .add(Style::new(PLOT_STYLE))
+        .add(
+            Rectangle::new()
+                .set("class", "plot-background")
+                .set("x", 0)
+                .set("y", 0)
+                .set("width", total_width)
+                .set("height", total_height)
+                .set("fill", "#ffffff"),
+        );
 
     // Add the "timeline" of start and stop time.
     document = document

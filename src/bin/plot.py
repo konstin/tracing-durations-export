@@ -28,6 +28,28 @@ content_col_width = 850
 bar_height = 20
 multi_lane_padding = 1
 section_padding_height = 10
+plot_style = """
+:root {
+  color-scheme: light dark;
+  --plot-background: #ffffff;
+  --plot-foreground: #111827;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --plot-background: #111827;
+    --plot-foreground: #e5e7eb;
+  }
+}
+
+.plot-background {
+  fill: var(--plot-background);
+}
+
+text {
+  fill: var(--plot-foreground);
+}
+"""
 
 
 class Instant(BaseModel):
@@ -193,10 +215,18 @@ def main():
         + padding_bottom
     )
 
-    d = Drawing(
-        padding_left + text_col_width + content_col_width + padding_right,
-        total_height,
-        origin="top-left",
+    total_width = padding_left + text_col_width + content_col_width + padding_right
+    d = Drawing(total_width, total_height, origin="top-left")
+    d.append_css(plot_style)
+    d.append(
+        Rectangle(
+            0,
+            0,
+            total_width,
+            total_height,
+            class_="plot-background",
+            fill="#ffffff",
+        )
     )
 
     if args.min_length:
@@ -318,7 +348,8 @@ def main():
                 )
             )
 
-    d.save_svg(args.output or Path(args.input).with_suffix(".svg"))
+    output = Path(args.output or Path(args.input).with_suffix(".svg"))
+    d.save_svg(output)
 
 
 if __name__ == "__main__":
