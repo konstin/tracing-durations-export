@@ -18,7 +18,7 @@ from argparse import ArgumentParser
 from collections import defaultdict
 from pathlib import Path
 
-from drawsvg import Drawing, Text, Rectangle
+from drawsvg import Drawing, Rectangle, Text
 from pydantic import BaseModel
 
 padding_top = 5
@@ -81,8 +81,6 @@ class Span(BaseModel):
 class FullSpan(Span):
     """The full span from start to end, including the holes where the span
     wasn't active."""
-
-    pass
 
 
 def main():
@@ -191,7 +189,7 @@ def main():
     extra_lane_height = bar_height // 2 + multi_lane_padding
 
     # For the left sidebar, sort spans by the first time a span name occurred
-    earliest_starts = dict()
+    earliest_starts = {}
     for span in spans:
         if current_earliest := earliest_starts.get(span.name):
             if span.start_secs() < current_earliest:
