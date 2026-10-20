@@ -5,6 +5,9 @@
 #   "drawsvg>=2,<3",
 #   "pydantic>=2,<3",
 # ]
+#
+# [tool.uv]
+# exclude-newer = "3 days"
 # ///
 """
 Usage:
