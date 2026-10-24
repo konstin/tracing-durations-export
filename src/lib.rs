@@ -48,6 +48,7 @@
 
 use fs::File;
 use once_cell::sync::Lazy;
+use portable_atomic::{AtomicU64, Ordering};
 use serde::Serialize;
 use std::collections::hash_map::RandomState;
 use std::collections::HashMap;
@@ -55,7 +56,6 @@ use std::fmt::Debug;
 use std::io::{BufWriter, Write};
 use std::marker::PhantomData;
 use std::path::PathBuf;
-use std::sync::atomic::{AtomicU64, Ordering};
 use std::sync::{Arc, Mutex};
 use std::time::{Duration, Instant};
 use std::{io, iter};
